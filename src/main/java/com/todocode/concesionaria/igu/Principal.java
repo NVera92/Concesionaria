@@ -1,12 +1,19 @@
 
 package com.todocode.concesionaria.igu;
 
+import static java.lang.System.exit;
+
 
 public class Principal extends javax.swing.JFrame {
 
+    public AltaAutomovil altaAutomovil;
     
     public Principal() {
         initComponents();
+    }
+    
+    public void cerrarFrame(){
+        this.altaAutomovil.dispose();
     }
 
     
@@ -48,6 +55,11 @@ public class Principal extends javax.swing.JFrame {
 
         btnSalir.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnSalir.setText("Salir");
+        btnSalir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSalirActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -105,12 +117,18 @@ public class Principal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAltaAutomovilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAltaAutomovilActionPerformed
-        // TODO add your handling code here:
+        this.altaAutomovil = new AltaAutomovil();
+        this.altaAutomovil.setVisible(true);
+        this.altaAutomovil.setLocationRelativeTo(null);
     }//GEN-LAST:event_btnAltaAutomovilActionPerformed
 
     private void btnCEBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCEBActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnCEBActionPerformed
+
+    private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
+        exit(0);    
+    }//GEN-LAST:event_btnSalirActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
