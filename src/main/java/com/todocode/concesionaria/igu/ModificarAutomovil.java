@@ -1,16 +1,27 @@
 package com.todocode.concesionaria.igu;
 
+import com.todocode.concesionaria.logica.Automovil;
 import com.todocode.concesionaria.logica.Controladora;
 import javax.swing.JDialog;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
-public class AltaAutomovil extends javax.swing.JFrame {
+public class ModificarAutomovil extends javax.swing.JFrame {
 
-    Controladora control = new Controladora();
+    private int idAuto;
+    Controladora control = null;
+    Automovil auto = null;
 
-    public AltaAutomovil() {
+    public ModificarAutomovil() {
         initComponents();
+    }
+
+    public ModificarAutomovil(int idAuto) {
+        control = new Controladora();
+        initComponents();
+        this.idAuto = idAuto;
+        this.auto = new  Automovil();
+        cargarDatos(idAuto);
+
     }
 
     @SuppressWarnings("unchecked")
@@ -32,7 +43,7 @@ public class AltaAutomovil extends javax.swing.JFrame {
         txtPatente = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
         txtPuertas = new javax.swing.JTextField();
-        btnAgregar = new javax.swing.JButton();
+        btnModificar = new javax.swing.JButton();
         btnLimpiar = new javax.swing.JButton();
         btnVolver = new javax.swing.JButton();
 
@@ -40,7 +51,7 @@ public class AltaAutomovil extends javax.swing.JFrame {
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         txtTitulo.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
-        txtTitulo.setText("VENTA DE AUTOMOVILES");
+        txtTitulo.setText("MODIFICACÍON DE AUTOMOVILES");
 
         jLabel3.setText("Marca:");
 
@@ -56,10 +67,10 @@ public class AltaAutomovil extends javax.swing.JFrame {
 
         jLabel8.setText("Puertas:");
 
-        btnAgregar.setText("Agregar");
-        btnAgregar.addActionListener(new java.awt.event.ActionListener() {
+        btnModificar.setText("Modificar");
+        btnModificar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAgregarActionPerformed(evt);
+                btnModificarActionPerformed(evt);
             }
         });
 
@@ -93,8 +104,8 @@ public class AltaAutomovil extends javax.swing.JFrame {
                                 .addGap(70, 70, 70)
                                 .addComponent(btnLimpiar)
                                 .addGap(102, 102, 102)
-                                .addComponent(btnAgregar)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 102, Short.MAX_VALUE))
+                                .addComponent(btnModificar)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 95, Short.MAX_VALUE))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel6)
@@ -154,9 +165,9 @@ public class AltaAutomovil extends javax.swing.JFrame {
                         .addGap(4, 4, 4)
                         .addComponent(jLabel8))
                     .addComponent(txtPuertas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 68, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnAgregar)
+                    .addComponent(btnModificar)
                     .addComponent(btnLimpiar)
                     .addComponent(btnVolver))
                 .addContainerGap())
@@ -167,32 +178,26 @@ public class AltaAutomovil extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private Boolean camposCorrectos() {
-        Boolean flag = false;
-        if (this.txtMarca.getText() != "") {
-            flag = true;
-        }
-        return flag;
-    }
+    private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
+       
+        String marca = txtMarca.getText();
+        String modelo = txtModelo.getText();
+        String motor = txtMotor.getText();
+        String color = txtColor.getText();
+        String patente = txtPatente.getText();
+        int cantPuertas = Integer.parseInt(txtPuertas.getText());
+        
+        control.modificarAutomovil(this.auto,marca,modelo,motor,color,patente,cantPuertas);
+        
+        mostrarMensaje("Edicion realizada correctamente","Info","Edicion Exitosa");
+        
+        ConsultaAutomovil consultaAutomovil = new ConsultaAutomovil();
+        consultaAutomovil.setVisible(true);
+        consultaAutomovil.setLocationRelativeTo(null);
+        
+        this.dispose();
 
-    private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
-
-        if (!campoVacio()) {
-            int id = 0;
-            String marca = txtMarca.getText();
-            String modelo = txtModelo.getText();
-            String motor = txtMotor.getText();
-            String color = txtColor.getText();
-            String patente = txtPatente.getText();
-            int cantPuertas = Integer.parseInt(txtPuertas.getText());
-            control.agregarAutomovil(id, marca, modelo, motor, color, patente, cantPuertas);
-            mostrarMensaje("Auto creado correctamente", "Info", "Alta Exitosa");
-            this.dispose();
-        } else {
-            mostrarMensaje("Verificar campos vacios", "Error", "Error al Crear");
-        }
-
-    }//GEN-LAST:event_btnAgregarActionPerformed
+    }//GEN-LAST:event_btnModificarActionPerformed
 
     private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
         txtMarca.setText("");
@@ -209,8 +214,8 @@ public class AltaAutomovil extends javax.swing.JFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnAgregar;
     private javax.swing.JButton btnLimpiar;
+    private javax.swing.JButton btnModificar;
     private javax.swing.JButton btnVolver;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -229,25 +234,27 @@ public class AltaAutomovil extends javax.swing.JFrame {
     private javax.swing.JLabel txtTitulo;
     // End of variables declaration//GEN-END:variables
 
-    public void mostrarMensaje(String mensaje, String tipo, String titulo) {
+    private void cargarDatos(int idAuto) {
+        
+        this.auto = control.traerAuto(idAuto);
+
+        txtMarca.setText(this.auto.getMarca());
+        txtModelo.setText(this.auto.getModelo());
+        txtMotor.setText(this.auto.getMotor());
+        txtColor.setText(this.auto.getColor());
+        txtPatente.setText(this.auto.getPatente());
+        txtPuertas.setText(String.valueOf(this.auto.getCantidadPuertas()));
+    }
+    
+     public void mostrarMensaje(String mensaje,String tipo,String titulo){
         JOptionPane optionPane = new JOptionPane(mensaje);
-        if (tipo.equals("Info")) {
+        if(tipo.equals("Info")){
             optionPane.setMessageType(JOptionPane.INFORMATION_MESSAGE);
-        } else if (tipo.equals("Error")) {
+        }else if(tipo.equals("Error")){
             optionPane.setMessageType(JOptionPane.ERROR_MESSAGE);
         }
         JDialog dialog = optionPane.createDialog(titulo);
         dialog.setAlwaysOnTop(true);
         dialog.setVisible(true);
     }
-
-    public boolean campoVacio() {
-        boolean flag = false;
-        if (txtPatente.getText().equals("") || txtMarca.getText().equals("") || txtModelo.getText().equals("")) {
-            flag = true;
-        }
-
-        return flag;
-    }
-
 }
